@@ -71,10 +71,6 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 		_ = Body.Close()
 	}(resp.Body)
 
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return result, &Error{Message: "failed to decode response"}
-	}
-
 	if !isSuccessfulCode(resp.StatusCode) {
 		responseBytes, _ := io.ReadAll(resp.Body)
 		return result, &Error{
@@ -82,6 +78,10 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 			Body:    responseBytes,
 			Message: fmt.Sprintf("status code does not indicate success: %d", resp.StatusCode),
 		}
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return result, &Error{Message: "failed to decode response"}
 	}
 
 	return result, nil
