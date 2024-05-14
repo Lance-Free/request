@@ -1,4 +1,4 @@
-# Request Package
+# Request
 
 The `request` package provides a simple and flexible way to perform HTTP requests in Go. It abstracts away the
 complexities of making HTTP requests and handling responses, allowing developers to focus on building robust
