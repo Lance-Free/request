@@ -25,11 +25,13 @@ options:
 - `WithBody(body interface{})`: Set the request body.
 - `WithParameter(key, value string)`: Add a query parameter to the request.
 - `WithParameters(parameters map[string]string)`: Add multiple query parameters to the request.
+- `WithCookie(key, value string)`: Add a cookie to the request.
+- `WithCookies(cookies map[string]string)`: Add multiple cookies to the request.
 
 ### Handling Responses
 
 The response body is automatically decoded into the desired type. If the request fails or the response code indicates an
-error, an `request.Error` struct is returned with relevant information.
+error, a `request.Error` struct is returned with relevant information.
 
 ### Handling Errors
 
