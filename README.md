@@ -29,7 +29,7 @@ options:
 ### Handling Responses
 
 The response body is automatically decoded into the desired type. If the request fails or the response code indicates an
-error, an `Error` struct is returned with relevant information.
+error, an `request.Error` struct is returned with relevant information.
 
 ### Handling Errors
 
