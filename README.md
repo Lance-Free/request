@@ -1,8 +1,7 @@
 # Request
 
 The `request` package provides a simple and flexible way to perform HTTP requests in Go. It abstracts away the
-complexities of making HTTP requests and handling responses, allowing developers to focus on building robust
-applications.
+complexities of making HTTP requests and handling responses for RESTful APIs.
 
 ## Usage
 
@@ -25,11 +24,13 @@ options:
 - `WithBody(body interface{})`: Set the request body.
 - `WithParameter(key, value string)`: Add a query parameter to the request.
 - `WithParameters(parameters map[string]string)`: Add multiple query parameters to the request.
+- `WithCookie(key, value string)`: Add a cookie to the request.
+- `WithCookies(cookies map[string]string)`: Add multiple cookies to the request.
 
 ### Handling Responses
 
 The response body is automatically decoded into the desired type. If the request fails or the response code indicates an
-error, an `request.Error` struct is returned with relevant information.
+error, a `request.Error` struct is returned with relevant information.
 
 ### Handling Errors
 
@@ -44,8 +45,7 @@ To handle errors effectively, you can inspect the returned error value and exami
 struct. This allows you to implement specific error-handling logic based on the nature of the encountered error.
 
 By leveraging the `Code` field of the `request.Error` struct, you can discern the type of error and tailor your
-error-handling approach accordingly. This granular error handling enhances the robustness and reliability of your
-application, providing better visibility into error scenarios and facilitating more precise error resolution.
+error-handling approach accordingly.
 
 ## Example
 

@@ -20,9 +20,8 @@ const (
 
 // RequestConfiguration represents the configuration for an HTTP request.
 type RequestConfiguration struct {
-	Headers    map[string]string
-	Parameters map[string]string
-	Body       []byte
+	Headers, Parameters, Cookies map[string]string
+	Body                         []byte
 }
 
 // Error represents an error returned by the application.
@@ -43,6 +42,7 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 	requestConfig := RequestConfiguration{
 		Headers:    make(map[string]string),
 		Parameters: make(map[string]string),
+		Cookies:    make(map[string]string),
 	}
 	for _, option := range options {
 		option(&requestConfig)
@@ -61,6 +61,10 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 
 	for key, value := range requestConfig.Parameters {
 		request.URL.Query().Add(key, value)
+	}
+
+	for key, value := range requestConfig.Cookies {
+		request.AddCookie(&http.Cookie{Name: key, Value: value})
 	}
 
 	resp, err := client.Do(request)
@@ -169,6 +173,27 @@ func WithParameters(parameters map[string]string) func(*RequestConfiguration) {
 	return func(r *RequestConfiguration) {
 		for key, value := range parameters {
 			r.Parameters[key] = value
+		}
+	}
+}
+
+// WithCookie is a higher-order function that returns a function which
+// sets a cookie with a given key and value on a RequestConfiguration object.
+// The returned function modifies the Cookies map of the provided RequestConfiguration by
+// adding or updating the entry with the given key and value.
+func WithCookie(key, value string) func(*RequestConfiguration) {
+	return func(r *RequestConfiguration) {
+		r.Cookies[key] = value
+	}
+}
+
+// WithCookies accepts a map of cookies and returns a closure that
+// modifies a given *RequestConfiguration by adding all the key-value pairs from the
+// cookies map to the RequestConfiguration's Cookies field.
+func WithCookies(cookies map[string]string) func(*RequestConfiguration) {
+	return func(r *RequestConfiguration) {
+		for key, value := range cookies {
+			r.Cookies[key] = value
 		}
 	}
 }
