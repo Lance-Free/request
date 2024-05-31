@@ -153,6 +153,7 @@ func WithBody[T any](body T) func(*RequestConfiguration) {
 		}
 
 		r.Body = jsonBody
+		r.Headers["Content-Type"] = "application/json"
 	}
 }
 
