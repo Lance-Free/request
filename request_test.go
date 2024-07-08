@@ -37,6 +37,7 @@ func TestPost(t *testing.T) {
 	_, err := Post[struct{}]("https://httpbin.org/status/404")
 	if err == nil {
 		t.Error("expected error, got nil")
+		return
 	}
 
 	if err.Code != 404 {
@@ -48,6 +49,7 @@ func TestWithAccept(t *testing.T) {
 	response, err := Get[getHeadersResponse]("https://httpbin.org/headers", WithAccept())
 	if err != nil {
 		t.Errorf("failed to get headers: %v", err)
+		return
 	}
 	if response.Headers.Accept != "application/json" {
 		t.Errorf("expected headers to container 'application/json'")
