@@ -141,6 +141,14 @@ func WithHeaders(headers map[string]string) func(*RequestConfiguration) {
 	}
 }
 
+// WithAccept is a function that returns an option function for setting the "Accept" header in an HTTP request.
+// The option function adds the "Accept" header with the value "application/json" to the RequestConfiguration structure.
+func WithAccept() func(*RequestConfiguration) {
+	return func(r *RequestConfiguration) {
+		r.Headers["Accept"] = "application/json"
+	}
+}
+
 // WithBody is a higher-order function that takes a value of any type as its argument and returns
 // a function that takes a pointer to a RequestConfiguration object as its argument. The returned function sets
 // the Body field of the provided RequestConfiguration object with the JSON representation of the input value.
