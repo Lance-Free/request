@@ -59,9 +59,11 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 		request.Header.Set(key, value)
 	}
 
+	values := request.URL.Query()
 	for key, value := range requestConfig.Parameters {
-		request.URL.Query().Add(key, value)
+		values.Add(key, value)
 	}
+	request.URL.RawQuery = values.Encode()
 
 	for key, value := range requestConfig.Cookies {
 		request.AddCookie(&http.Cookie{Name: key, Value: value})
