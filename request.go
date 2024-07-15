@@ -87,6 +87,9 @@ func do[T any](method Method, url string, options ...func(*RequestConfiguration)
 	}
 
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		if unmarshalErr, ok := err.(*json.UnmarshalTypeError); ok {
+			return result, &Error{Message: fmt.Sprintf("failed to decode field \"%s\"", unmarshalErr.Field)}
+		}
 		return result, &Error{Message: "failed to decode response"}
 	}
 
